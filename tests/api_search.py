@@ -4,9 +4,9 @@ __author__ = 'DavidWard'
 import logging
 import unittest
 
-from api.api.google.google import Google
-from api.api.clearbit.clearbit_api import ClearbitAPI
-from api.local_storage import DictionaryStorage
+from howdy.third_party_api.google.google import Google
+from howdy.third_party_api.api.clearbit.clearbit_api import ClearbitAPI
+from howdy.third_party_api.local_storage import DictionaryStorage
 
 
 """
