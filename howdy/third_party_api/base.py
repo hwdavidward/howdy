@@ -2,9 +2,9 @@
 __author__ = 'DavidWard'
 
 
-from app.request_handler import RequestHandler, RequestHandlerBase
-from app.exceptions import HTTPError, NotFoundInStorage
-from app.local_storage import Storage
+from howdy.request_handler import RequestHandler, RequestHandlerBase
+from howdy.exceptions import HTTPError, NotFoundInStorage
+from howdy.local_storage import Storage
 
 class Base(object):
 

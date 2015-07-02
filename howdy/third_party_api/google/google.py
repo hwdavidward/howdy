@@ -2,10 +2,10 @@
 __author__ = 'DavidWard'
 
 import logging
-from app.api.base import RequestBase
+from howdy.third_party_api.base import RequestBase
 from secret import GOOGLE_PLACES_KEY
-from app.api.google.exceptions import GoogleError
-from app.local_storage import memorized
+from howdy.third_party_api.google.exceptions import GoogleError
+from howdy.local_storage import memorized
 
 class Google(RequestBase):
     """

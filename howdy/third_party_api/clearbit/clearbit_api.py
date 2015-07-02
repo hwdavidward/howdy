@@ -3,8 +3,8 @@ __author__ = 'DavidWard'
 
 import clearbit
 
-from app.api.base import Base
-from app.local_storage import memorized
+from howdy.third_party_api.base import Base
+from howdy.local_storage import memorized
 from secret import CLEARBIT_KEY
 
 clearbit.key = CLEARBIT_KEY

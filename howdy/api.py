@@ -2,8 +2,8 @@
 __author__ = 'DavidWard'
 
 from urlparse import urlparse
-from app.api.google.google import Google
-from app.api.clearbit.clearbit_api import ClearbitAPI
+from howdy.third_party_api.google.google import Google
+from howdy.third_party_api.clearbit.clearbit_api import ClearbitAPI
 
 
 class HowdyBaseSource(object):

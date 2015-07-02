@@ -3,7 +3,7 @@ __author__ = 'DavidWard'
 
 import logging
 from functools import wraps
-from app.exceptions import NotFoundInStorage
+from howdy.exceptions import NotFoundInStorage
 
 class Storage(object):
 

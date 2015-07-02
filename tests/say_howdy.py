@@ -5,7 +5,7 @@ import logging
 import unittest
 
 from howdy.local_storage import DictionaryStorage
-from howdy.howdy import Howdy, ClearbitCompanySource
+from howdy.api import Howdy, ClearbitCompanySource
 
 
 """
