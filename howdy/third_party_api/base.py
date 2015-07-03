@@ -20,14 +20,14 @@ class Base(object):
     @storage.setter
     def storage(self, value):
         if value is not None and not isinstance(value, Storage):
-            raise TypeError('Invalid Storage Service provided. Must be subclass of %s' % Storage.__class__.__name__)
+            raise TypeError('Invalid Storage Service provided. Must be subclass of Storage')
         self._storage = value
 
 class RequestBase(Base):
 
     def __init__(self, url, **kwargs):
         self.url = url
-        self.request_handler = kwargs.pop('request_handler', RequestHandler())
+        self.request_handler = kwargs.pop('request_handler', None) or RequestHandler()
         super(RequestBase, self).__init__(**kwargs)
 
     @property
@@ -37,7 +37,7 @@ class RequestBase(Base):
     @request_handler.setter
     def request_handler(self, value):
         if not isinstance(value, RequestHandlerBase):
-            raise TypeError('Invalid Request Handler Provided. Must be subclass of %s' % RequestHandlerBase.__class__.__name__)
+            raise TypeError('Invalid Request Handler Provided. Must be subclass of RequestHandlerBase')
         self._request_handler = value
 
     def make_request(self, method, url, data=None, params=None, headers=None, timeout=60):

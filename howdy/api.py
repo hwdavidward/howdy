@@ -98,9 +98,9 @@ class Howdy(object):
 
     """
 
-    def __init__(self, storage=None, domain_sources=None):
+    def __init__(self, storage=None, domain_sources=None, request_handler=None):
         self.storage = storage
-        self.google = Google(storage=self.storage)
+        self.google = Google(storage=self.storage, request_handler=request_handler)
         self.google_text_search = GoogleTextSearchSource(self.google)
         self.google_details = GoogleDetailsSource(self.google)
         self.other_sources = set()

@@ -30,7 +30,7 @@ class FindSocialDataTest(unittest.TestCase):
         self.howdy = Howdy(storage=DictionaryStorage(), domain_sources=[ClearbitCompanySource])
 
     def testSayHowdy(self):
-        caller_id = '6132379329'
+        caller_id = '+16132379329'
         result = self.howdy.say_howdy(caller_id)
 
         self.assertEqual(result.get('description', None), u'Canadian-based Hosted PBX provider, making business phone systems more awesome.')
