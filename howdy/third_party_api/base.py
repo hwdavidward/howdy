@@ -25,8 +25,7 @@ class Base(object):
 
 class RequestBase(Base):
 
-    def __init__(self, url, **kwargs):
-        self.url = url
+    def __init__(self, **kwargs):
         self.request_handler = kwargs.pop('request_handler', None) or RequestHandler()
         super(RequestBase, self).__init__(**kwargs)
 

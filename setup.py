@@ -23,7 +23,6 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'requests>=2.5.0',
-        'clearbit'
+        'requests>=2.5.0'
     ]
 )

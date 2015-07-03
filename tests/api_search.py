@@ -5,8 +5,8 @@ import logging
 import unittest
 
 from howdy.third_party_api.google.google import Google
-from howdy.third_party_api.api.clearbit.clearbit_api import ClearbitAPI
-from howdy.third_party_api.local_storage import DictionaryStorage
+from howdy.third_party_api.clearbit.clearbit_api import ClearbitAPI
+from howdy.local_storage import DictionaryStorage
 
 
 """
@@ -53,12 +53,10 @@ class TestMemorizedResult(unittest.TestCase):
         #TODO test second response is cached result
 
 
-class ClearbitTest(unittest.TestCase):
+class ClearbitDomainTest(unittest.TestCase):
 
-    def setUp(self):
-        self.clearbitApi = ClearbitAPI()
-
-    def testSearchDomain(self):
+    def testCompanyDomain(self):
+        self.clearbitApi = ClearbitAPI(storage=DictionaryStorage())
         domain = u'www.versature.com'
         result = self.clearbitApi.company_search(domain)
         self.assertIsNotNone(result)

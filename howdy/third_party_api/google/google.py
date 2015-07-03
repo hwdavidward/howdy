@@ -25,9 +25,6 @@ class Google(RequestBase):
     TEXT_SEARCH = 'textsearch'
     DETAILS = 'details'
 
-    def __init__(self, **kwargs):
-        super(Google, self).__init__(self.GOOGLE_PLACES_URL, **kwargs)
-
     def prepare_request(self, action):
         """
         Prepare the request for the provided action
