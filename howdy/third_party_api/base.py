@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 __author__ = 'DavidWard'
 
-
 from howdy.request_handler import RequestHandler, RequestHandlerBase
-from howdy.exceptions import HTTPError, NotFoundInStorage
+from howdy.exceptions import HTTPError
 from howdy.local_storage import Storage
 
 class Base(object):
 
-    def __init__(self, storage=None, *kwargs):
+    def __init__(self, storage=None, **kwargs):
         self.storage = storage
 
         if kwargs:
