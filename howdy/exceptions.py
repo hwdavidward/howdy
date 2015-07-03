@@ -7,3 +7,6 @@ class HTTPError(Exception):
 
 class NotFoundInStorage(Exception):
     pass
+
+class ContentTypeNotSupported(Exception):
+    pass

@@ -2,14 +2,11 @@
 __author__ = 'DavidWard'
 
 import requests
-
+from howdy.exceptions import ContentTypeNotSupported
 
 class RequestHandlerBase(object):
 
-    def get(self, url, params=None, headers=None):
-        raise NotImplementedError
-
-    def post(self, url, params=None, data=None, headers=None):
+    def request(self, method, url, **kwargs):
         raise NotImplementedError
 
 
@@ -24,8 +21,8 @@ class RequestHandler(RequestHandlerBase):
             return response.json()
         elif 'text/plain' in content_type:
             return response.text
-
-        return None
+        else:
+            raise ContentTypeNotSupported('Content Type: %s is not supported' % content_type)
 
     def request(self, method, url, **kwargs):
         r = requests.request(method, url, **kwargs)
