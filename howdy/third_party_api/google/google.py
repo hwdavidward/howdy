@@ -3,7 +3,7 @@ __author__ = 'DavidWard'
 
 import logging
 from howdy.third_party_api.base import RequestBase
-from secret import GOOGLE_PLACES_KEY
+from howdy_secrets import GOOGLE_PLACES_KEY
 from howdy.third_party_api.google.exceptions import GoogleError
 from howdy.local_storage import memorized
 

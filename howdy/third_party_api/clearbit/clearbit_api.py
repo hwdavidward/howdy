@@ -5,7 +5,7 @@ import clearbit
 
 from howdy.third_party_api.base import Base
 from howdy.local_storage import memorized
-from secret import CLEARBIT_KEY
+from howdy_secrets import CLEARBIT_KEY
 
 clearbit.key = CLEARBIT_KEY
 

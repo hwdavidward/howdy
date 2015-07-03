@@ -28,7 +28,7 @@ class GoogleTextSearchSource(HowdyBaseSource):
         """
         Parse the google text search results and set the correct attributes.
         """
-        google_text_search_results = self.google.text_search(caller_id, force)
+        google_text_search_results = self.google.text_search(caller_id, force) or []
         howdy_results = []
 
         for search_result in google_text_search_results:
