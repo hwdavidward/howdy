@@ -4,7 +4,7 @@ __author__ = 'DavidWard'
 import logging
 from howdy.third_party_api.base import RequestBase
 from howdy_secrets import GOOGLE_PLACES_KEY
-from howdy.third_party_api.google.exceptions import GoogleError
+from howdy.third_party_api.google.exceptions import GoogleError, NoGoogleResults
 from howdy.local_storage import memorized
 
 class Google(RequestBase):
@@ -56,5 +56,7 @@ class Google(RequestBase):
         super(Google, self).validate_response(response, status_code)
 
         status = response.get('status', None)
-        if status is None or status != 'OK':
+        if status == 'ZERO_RESULTS':
+            raise NoGoogleResults()
+        elif status is None or status != 'OK':
             raise GoogleError('Invalid Status: {}'.format(status))
