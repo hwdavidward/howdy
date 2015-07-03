@@ -8,6 +8,9 @@ from howdy.third_party_api.clearbit.clearbit_api import ClearbitAPI
 
 class HowdyBaseSource(object):
 
+    def __init__(self, source=None, storage=None, request_handler=None):
+        self.source = source
+
     def __call__(self, *args, **kwargs):
         raise NotImplementedError()
 
@@ -18,17 +21,16 @@ class HowdySource(HowdyBaseSource):
 
 class GoogleTextSearchSource(HowdyBaseSource):
 
-    def __init__(self, google=None, storage=None):
-        if google:
-            self.google = google
-        else:
-            self.google = Google(storage)
+    def __init__(self, source=None, storage=None, request_handler=None):
+        super(GoogleTextSearchSource, self).__init__(source, storage, request_handler)
+        if not source:
+            self.source = Google(storage=storage, request_handler=request_handler)
 
     def __call__(self, caller_id, force=False):
         """
         Parse the google text search results and set the correct attributes.
         """
-        google_text_search_results = self.google.text_search(caller_id, force) or []
+        google_text_search_results = self.source.text_search(caller_id, force) or []
         howdy_results = []
 
         for search_result in google_text_search_results:
@@ -45,17 +47,16 @@ class GoogleTextSearchSource(HowdyBaseSource):
 
 class GoogleDetailsSource(HowdyBaseSource):
 
-    def __init__(self, google=None, storage=None):
-        if google:
-            self.google = google
-        else:
-            self.google = Google(storage)
+    def __init__(self, source=None, storage=None, request_handler=None):
+        super(GoogleDetailsSource, self).__init__(source, storage, request_handler)
+        if not source:
+            self.source = Google(storage=storage, request_handler=request_handler)
 
     def __call__(self, howdy_model, force=False):
         """
         Parse the google text search results and set the correct attributes.
         """
-        google_details_result = self.google.details(howdy_model['google_places_id'], force)
+        google_details_result = self.source.details(howdy_model['google_places_id'], force)
         self.parse_result(google_details_result, howdy_model)
 
     def parse_result(self, result, howdy_model):
@@ -73,14 +74,13 @@ class GoogleDetailsSource(HowdyBaseSource):
 
 class ClearbitCompanySource(HowdySource):
 
-    def __init__(self, clearbit=None, storage=None):
-        if clearbit:
-            self.clearbit = clearbit
-        else:
-            self.clearbit = ClearbitAPI(storage)
+    def __init__(self, source=None, storage=None, request_handler=None):
+        super(ClearbitCompanySource, self).__init__(source, storage, request_handler)
+        if not source:
+            self.source = ClearbitAPI(storage=storage, request_handler=request_handler)
 
     def __call__(self, howdy_model, force=False):
-        result = self.clearbit.company_search(howdy_model['domain'], force)
+        result = self.source.company_search(howdy_model['domain'], force)
         self.parse_result(result, howdy_model)
 
     def parse_result(self, result, howdy_model):
@@ -100,6 +100,7 @@ class Howdy(object):
 
     def __init__(self, storage=None, domain_sources=None, request_handler=None):
         self.storage = storage
+        self.request_handler = request_handler
         self.google = Google(storage=self.storage, request_handler=request_handler)
         self.google_text_search = GoogleTextSearchSource(self.google)
         self.google_details = GoogleDetailsSource(self.google)
@@ -111,7 +112,7 @@ class Howdy(object):
         Initialize Sources for lookup
         """
         for source in domain_sources:
-            self.other_sources.add(source(storage=self.storage))
+            self.other_sources.add(source(storage=self.storage, request_handler=self.request_handler))
 
     def say_howdy(self, caller_id, use_first_result=True, force=False):
         """
