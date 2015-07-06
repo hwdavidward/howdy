@@ -2,8 +2,8 @@
 __author__ = 'DavidWard'
 
 from howdy.cherry_picker import GoogleTextSearch, GoogleDetails, CherryPicker
-from howdy.exceptions import AsyncLookupRequired, PartialResultFound
-from howdy.third_party_api.google import Google
+from howdy.exceptions import AsyncLookupRequired, PartialResultFound, NoResultFound
+from howdy.third_party_api.google import Google, NoGoogleResults
 
 class Howdy(object):
     """
@@ -42,7 +42,11 @@ class Howdy(object):
         Return:
             Results Found that match the caller id for the sources configured
         """
-        howdy_results = self.google_text_search(caller_id, force)
+        try:
+            howdy_results = self.google_text_search(caller_id, force)
+        except NoGoogleResults as ngr:
+            raise NoResultFound('Caller Id %s could not be found', caller_id)
+
         async_lookup_required_exceptions = []
         for howdy_model in howdy_results:
             self.google_details(howdy_model)  # Sets the domain which is needed for other sources

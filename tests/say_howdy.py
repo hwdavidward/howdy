@@ -7,6 +7,7 @@ import unittest
 from howdy import Howdy
 from howdy.local_storage import DictionaryStorage
 from howdy.cherry_picker import ClearbitCompany
+from howdy.exceptions import NoResultFound
 
 
 """
@@ -45,3 +46,7 @@ class FindSocialDataTest(unittest.TestCase):
         self.assertEqual(result.get('facebook', None), {u'handle': u'versature', u'likes': None})
         self.assertIsNotNone(result.get('twitter', None))
         self.assertIsNotNone(result.get('logo', None))
+
+    def testSayHowdyNoResult(self):
+        caller_id = '+16133246101'
+        self.assertRaises(NoResultFound, self.howdy.say_howdy, caller_id)

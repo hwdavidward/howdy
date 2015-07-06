@@ -9,7 +9,7 @@ from howdy.local_storage import memorized
 class GoogleError(Exception):
     pass
 
-class NoGoogleResults(Exception):
+class NoGoogleResults(GoogleError):
     pass
 
 class Google(RequestBase):
@@ -58,7 +58,7 @@ class Google(RequestBase):
         super(Google, self).validate_response(response, status_code)
 
         status = response.get('status', None)
-        #if status == 'ZERO_RESULTS':
-        #    raise NoGoogleResults()
-        if status is None or status != 'OK':
+        if status == 'ZERO_RESULTS':
+            raise NoGoogleResults()
+        elif status is None or status != 'OK':
             raise GoogleError('Invalid Status: {}'.format(status))

@@ -25,3 +25,6 @@ class PartialResultFound(Exception):
         self.result = result
         self.source_exceptions = source_exceptions
         super(PartialResultFound, self).__init__(result, source_exceptions)
+
+class NoResultFound(Exception):
+    pass
