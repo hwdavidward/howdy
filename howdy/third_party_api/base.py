@@ -5,11 +5,11 @@ from howdy.request_handler import RequestHandler, RequestHandlerBase
 from howdy.exceptions import HTTPError
 from howdy.local_storage import Storage
 
-class Base(object):
+class RequestBase(object):
 
     def __init__(self, storage=None, **kwargs):
         self.storage = storage
-
+        self.request_handler = kwargs.pop('request_handler', None) or RequestHandler()
         if kwargs:
             raise TypeError('Unexpected **kwargs: %r', kwargs)
 
@@ -22,12 +22,6 @@ class Base(object):
         if value is not None and not isinstance(value, Storage):
             raise TypeError('Invalid Storage Service provided. Must be subclass of Storage')
         self._storage = value
-
-class RequestBase(Base):
-
-    def __init__(self, **kwargs):
-        self.request_handler = kwargs.pop('request_handler', None) or RequestHandler()
-        super(RequestBase, self).__init__(**kwargs)
 
     @property
     def request_handler(self):

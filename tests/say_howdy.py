@@ -4,8 +4,9 @@ __author__ = 'DavidWard'
 import logging
 import unittest
 
+from howdy import Howdy
 from howdy.local_storage import DictionaryStorage
-from howdy.api import Howdy, ClearbitCompanySource
+from howdy.cherry_picker import ClearbitCompany
 
 
 """
@@ -27,7 +28,7 @@ class FindSocialDataTest(unittest.TestCase):
     ############################################
 
     def setUp(self):
-        self.howdy = Howdy(storage=DictionaryStorage(), domain_sources=[ClearbitCompanySource])
+        self.howdy = Howdy(storage=DictionaryStorage(), additional_cherry_pickers=[ClearbitCompany])
 
     def testSayHowdy(self):
         caller_id = '+16132379329'

@@ -4,13 +4,12 @@ __author__ = 'DavidWard'
 import logging
 import unittest
 
-from howdy.third_party_api.google.google import Google
-from howdy.third_party_api.clearbit.clearbit_api import ClearbitAPI
+from howdy.third_party_api.google import Google
+from howdy.third_party_api.clearbit import Clearbit
 from howdy.local_storage import DictionaryStorage
 
-
 """
-To run these tests create secret.py and define the a config that extends settings.py Config
+To run these tests create howdy_secret.py and define the required key's.
 
 i.e.
 
@@ -33,7 +32,7 @@ class GooglePlacesTest(unittest.TestCase):
     def test_search_caller_id(self):
         caller_id = 16132379329
         results = self.google.text_search(caller_id)
-        print 'Result is: %s' % results
+        self.assertIsNotNone(results)
 
     def test_place_id_request(self):
         place_id = u'ChIJL9V5DTEQzkwR2Iz9nMnPGkc'
@@ -56,7 +55,7 @@ class TestMemorizedResult(unittest.TestCase):
 class ClearbitDomainTest(unittest.TestCase):
 
     def testCompanyDomain(self):
-        self.clearbitApi = ClearbitAPI(storage=DictionaryStorage())
+        self.clearbitApi = Clearbit(storage=DictionaryStorage())
         domain = u'www.versature.com'
         result = self.clearbitApi.company_search(domain)
         self.assertIsNotNone(result)
