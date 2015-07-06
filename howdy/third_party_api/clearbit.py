@@ -6,7 +6,7 @@ import logging
 from howdy_secrets import CLEARBIT_KEY
 from howdy.third_party_api.base import RequestBase
 from howdy.local_storage import memorized
-from howdy.exceptions import AsyncLookupRequiredForRequest
+from howdy.exceptions import AsyncLookupRequired
 
 class Clearbit(RequestBase):
     """
@@ -27,5 +27,5 @@ class Clearbit(RequestBase):
         response, status_code = self.make_request('get', url, headers=headers)
         logging.debug("Google Text Search. Domain: %s, Response: %s, Status Code: %s", domain, response, status_code)
         if status_code == 202:
-            raise AsyncLookupRequiredForRequest(self.SOURCE_NAME, self.COMPANY_SEARCH)
+            raise AsyncLookupRequired(self.SOURCE_NAME, self.COMPANY_SEARCH)
         return response

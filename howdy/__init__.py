@@ -2,7 +2,7 @@
 __author__ = 'DavidWard'
 
 from howdy.cherry_picker import GoogleTextSearch, GoogleDetails, CherryPicker
-from howdy.exceptions import AsyncLookupRequiredForRequest
+from howdy.exceptions import AsyncLookupRequired
 from howdy.third_party_api.google import Google
 
 class Howdy(object):
@@ -48,7 +48,7 @@ class Howdy(object):
                 if isinstance(cherry_picker, CherryPicker):
                     try:
                         cherry_picker(howdy_model)
-                    except AsyncLookupRequiredForRequest:
+                    except AsyncLookupRequired:
                         async_lookup_required = True
             # Only use the first result found if multiple results are present and use_first_result is set to True
             if use_first_result:
