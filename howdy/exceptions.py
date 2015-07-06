@@ -17,3 +17,11 @@ class AsyncLookupRequired(Exception):
         super(AsyncLookupRequired, self).__init__(source, action)
         self.source = source
         self.action = action
+
+
+class PartialResultFound(Exception):
+
+    def __init__(self, result, source_exceptions):
+        self.result = result
+        self.source_exceptions = source_exceptions
+        super(PartialResultFound, self).__init__(result, source_exceptions)
