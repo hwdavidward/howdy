@@ -36,6 +36,7 @@ class FindSocialDataTest(unittest.TestCase):
         result = self.howdy.say_howdy(caller_id)
 
         self.assertEqual(result.get('description', None), u'Canadian-based Hosted PBX provider, making business phone systems more awesome.')
+        self.assertEqual(result.get('formatted_address', None), u'5424 Canotek Road, Gloucester, ON K1J 1E9, Canada')
         self.assertEqual(result.get('domain', None), u'www.versature.com')
         self.assertEqual(result.get('employees', None), 50)
         self.assertEqual(result.get('name', None), u'Versature')

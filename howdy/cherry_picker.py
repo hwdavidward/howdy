@@ -74,6 +74,7 @@ class GoogleDetails(CherryPickerBase):
         howdy_model['website'] = website
         howdy_model['domain'] = domain
         howdy_model['utc_offset'] = result.get('utc_offset', None)
+        howdy_model['formatted_address'] = result.get('formatted_address', None)
 
 
 class ClearbitCompany(CherryPicker):

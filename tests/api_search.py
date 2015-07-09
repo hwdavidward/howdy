@@ -4,7 +4,7 @@ __author__ = 'DavidWard'
 import logging
 import unittest
 
-from howdy.third_party_api.google import Google
+from howdy.third_party_api.google import Google, NoGoogleResults
 from howdy.third_party_api.clearbit import Clearbit
 from howdy.local_storage import DictionaryStorage
 
@@ -33,6 +33,10 @@ class GooglePlacesTest(unittest.TestCase):
         caller_id = 16132379329
         results = self.google.text_search(caller_id)
         self.assertIsNotNone(results)
+
+    def test_search_caller_id_not_found(self):
+        caller_id = 16133246100
+        self.assertRaises(NoGoogleResults, self.google.text_search, caller_id)
 
     def test_place_id_request(self):
         place_id = u'ChIJL9V5DTEQzkwR2Iz9nMnPGkc'
