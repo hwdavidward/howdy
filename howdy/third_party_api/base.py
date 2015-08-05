@@ -52,4 +52,4 @@ class RequestBase(object):
             http_error_msg = '%s Server Error' % status_code
 
         if http_error_msg:
-            raise HTTPError(http_error_msg)
+            raise HTTPError(http_error_msg, status_code)

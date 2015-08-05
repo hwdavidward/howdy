@@ -5,12 +5,11 @@ import logging
 from howdy.third_party_api.base import RequestBase
 from howdy_secrets import GOOGLE_PLACES_KEY
 from howdy.local_storage import memorized
+from howdy.exceptions import NoResultFound
 
 class GoogleError(Exception):
     pass
 
-class NoGoogleResults(GoogleError):
-    pass
 
 class Google(RequestBase):
     """
@@ -59,6 +58,6 @@ class Google(RequestBase):
 
         status = response.get('status', None)
         if status == 'ZERO_RESULTS':
-            raise NoGoogleResults()
+            raise NoResultFound()
         elif status is None or status != 'OK':
             raise GoogleError('Invalid Status: {}'.format(status))

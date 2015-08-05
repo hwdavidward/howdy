@@ -51,3 +51,19 @@ class FindSocialDataTest(unittest.TestCase):
     def testSayHowdyNoResult(self):
         caller_id = '+16133246101'
         self.assertRaises(NoResultFound, self.howdy.say_howdy, caller_id)
+
+    def testSayHowdyNoClearbitResult(self):
+        caller_id = '+19053711777'
+        result = self.howdy.say_howdy(caller_id)
+        self.assertIsNone(result.get('description', None))
+        self.assertEqual(result.get('formatted_address', None), u'7888 Oakwood Drive, Niagara Falls, ON L2E 6S5, Canada')
+        self.assertEqual(result.get('domain', None), u'www.oktireniagara.com')
+        self.assertIsNone(result.get('employees', None))
+        self.assertEqual(result.get('name', None), u'OK Tire')
+        self.assertEqual(result.get('utc_offset', None), -240)
+        self.assertEqual(result.get('website', None), u'http://www.oktireniagara.com/')
+        self.assertIsNone(result.get('linkedin', None))
+        self.assertEqual(result.get('location', None), {u'lat': 43.061469, u'lng': -79.12092})
+        self.assertIsNone(result.get('facebook', None))
+        self.assertIsNone(result.get('twitter', None))
+        self.assertIsNone(result.get('logo', None))

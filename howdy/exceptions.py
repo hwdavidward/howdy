@@ -3,7 +3,10 @@ __author__ = 'DavidWard'
 
 
 class HTTPError(Exception):
-    pass
+
+    def __init__(self, msg, status_code):
+        super(HTTPError, self).__init__(msg)
+        self.status_code = status_code
 
 class NotFoundInStorage(Exception):
     pass

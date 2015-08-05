@@ -3,7 +3,7 @@ __author__ = 'DavidWard'
 
 from howdy.cherry_picker import GoogleTextSearch, GoogleDetails, CherryPicker
 from howdy.exceptions import AsyncLookupRequired, PartialResultFound, NoResultFound
-from howdy.third_party_api.google import Google, NoGoogleResults
+from howdy.third_party_api.google import Google
 
 class Howdy(object):
     """
@@ -44,8 +44,9 @@ class Howdy(object):
         """
         try:
             howdy_results = self.google_text_search(caller_id, force)
-        except NoGoogleResults as ngr:
-            raise NoResultFound('Caller Id %s could not be found', caller_id)
+        except NoResultFound as nr:
+            nr.message = 'Caller Id %s could not be found', caller_id
+            raise #NoResultFound('Caller Id %s could not be found', caller_id)
 
         async_lookup_required_exceptions = []
         for howdy_model in howdy_results:
@@ -54,6 +55,8 @@ class Howdy(object):
                 if isinstance(cherry_picker, CherryPicker):
                     try:
                         cherry_picker(howdy_model)
+                    except NoResultFound as nr:
+                        pass
                     except AsyncLookupRequired as alr_except:
                         async_lookup_required_exceptions.append(alr_except)
             # Only use the first result found if multiple results are present and use_first_result is set to True

@@ -6,7 +6,7 @@ import logging
 from howdy_secrets import CLEARBIT_KEY
 from howdy.third_party_api.base import RequestBase
 from howdy.local_storage import memorized
-from howdy.exceptions import AsyncLookupRequired
+from howdy.exceptions import AsyncLookupRequired, HTTPError, NoResultFound
 
 class Clearbit(RequestBase):
     """
@@ -29,3 +29,11 @@ class Clearbit(RequestBase):
         if status_code == 202:
             raise AsyncLookupRequired(self.SOURCE_NAME, self.COMPANY_SEARCH)
         return response
+
+    def validate_response(self, response, status_code):
+        try:
+            super(Clearbit, self).validate_response(response, status_code)
+        except HTTPError as e:
+            if e.status_code == 404:
+                raise NoResultFound()
+            raise
