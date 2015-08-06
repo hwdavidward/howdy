@@ -8,7 +8,8 @@ from howdy import Howdy
 from howdy.local_storage import DictionaryStorage
 from howdy.cherry_picker import ClearbitCompany
 from howdy.exceptions import NoResultFound
-
+from howdy.third_party_api.google import Google
+from howdy.third_party_api.clearbit import Clearbit
 
 """
 To run these tests create secret.py and define the a config that extends settings.py Config
@@ -21,6 +22,63 @@ GOOGLE_PLACES_KEY = '123456789'
 
 logger = logging.getLogger(__name__)
 
+
+
+"""
+To run these tests create howdy_secret.py and define the required key's.
+
+i.e.
+
+GOOGLE_PLACES_KEY = '123456789'
+CLEARBIT_KEY = '123456789'
+
+"""
+logger = logging.getLogger(__name__)
+
+
+class GooglePlacesTest(unittest.TestCase):
+
+    def setUp(self):
+        self.google = Google()
+
+    ##############################
+    #### GOOGLE PLACES SEARCH ####
+    ##############################
+
+    def test_search_caller_id(self):
+        caller_id = 16132379329
+        results = self.google.text_search(caller_id)
+        self.assertIsNotNone(results)
+
+    def test_search_caller_id_not_found(self):
+        caller_id = 16133246100
+        self.assertRaises(Exception, self.google.text_search, caller_id)
+
+    def test_place_id_request(self):
+        place_id = u'ChIJL9V5DTEQzkwR2Iz9nMnPGkc'
+        result = self.google.details(place_id)
+        self.assertIsNotNone(result)
+        self.assertEqual(result.get('website', None), 'http://www.versature.com/')
+
+class TestMemorizedResult(unittest.TestCase):
+
+    def testGoogleDetails(self):
+        google = Google(storage=DictionaryStorage())
+        place_id = u'ChIJL9V5DTEQzkwR2Iz9nMnPGkc'
+        details_response = google.details(place_id)
+        self.assertIsNotNone(details_response)
+        details_response_again = google.details(place_id)
+        self.assertIsNotNone(details_response_again)
+        #TODO test second response is cached result
+
+
+class ClearbitDomainTest(unittest.TestCase):
+
+    def testCompanyDomain(self):
+        self.clearbitApi = Clearbit(storage=DictionaryStorage())
+        domain = u'www.versature.com'
+        result = self.clearbitApi.company_search(domain)
+        self.assertIsNotNone(result)
 
 class FindSocialDataTest(unittest.TestCase):
 
@@ -67,3 +125,7 @@ class FindSocialDataTest(unittest.TestCase):
         self.assertIsNone(result.get('facebook', None))
         self.assertIsNone(result.get('twitter', None))
         self.assertIsNone(result.get('logo', None))
+
+
+if __name__ == '__main__':
+    unittest.main()
